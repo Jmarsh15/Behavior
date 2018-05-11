@@ -30,7 +30,8 @@
         {
             this.btn_AddStudent = new System.Windows.Forms.Button();
             this.btn_AddTeacher = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel_Student = new System.Windows.Forms.Panel();
+            this.txt_TeacherPassword = new System.Windows.Forms.TextBox();
             this.txt_Teacher = new System.Windows.Forms.TextBox();
             this.txt_Days = new System.Windows.Forms.TextBox();
             this.txt_StudentID = new System.Windows.Forms.TextBox();
@@ -42,7 +43,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.panel_Student.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_AddStudent
@@ -53,6 +54,7 @@
             this.btn_AddStudent.TabIndex = 0;
             this.btn_AddStudent.Text = "Add Student";
             this.btn_AddStudent.UseVisualStyleBackColor = true;
+            this.btn_AddStudent.Click += new System.EventHandler(this.btn_AddStudent_Click);
             // 
             // btn_AddTeacher
             // 
@@ -62,24 +64,33 @@
             this.btn_AddTeacher.TabIndex = 2;
             this.btn_AddTeacher.Text = "Add Teacher";
             this.btn_AddTeacher.UseVisualStyleBackColor = true;
+            this.btn_AddTeacher.Click += new System.EventHandler(this.btn_AddTeacher_Click);
             // 
-            // panel1
+            // panel_Student
             // 
-            this.panel1.Controls.Add(this.txt_Teacher);
-            this.panel1.Controls.Add(this.txt_Days);
-            this.panel1.Controls.Add(this.txt_StudentID);
-            this.panel1.Controls.Add(this.txt_LastName);
-            this.panel1.Controls.Add(this.txt_FirstName);
-            this.panel1.Controls.Add(this.btn_Save);
-            this.panel1.Controls.Add(this.label10);
-            this.panel1.Controls.Add(this.label11);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(-1, 67);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(737, 427);
-            this.panel1.TabIndex = 3;
+            this.panel_Student.Controls.Add(this.txt_TeacherPassword);
+            this.panel_Student.Controls.Add(this.txt_Teacher);
+            this.panel_Student.Controls.Add(this.txt_Days);
+            this.panel_Student.Controls.Add(this.txt_StudentID);
+            this.panel_Student.Controls.Add(this.txt_LastName);
+            this.panel_Student.Controls.Add(this.txt_FirstName);
+            this.panel_Student.Controls.Add(this.btn_Save);
+            this.panel_Student.Controls.Add(this.label10);
+            this.panel_Student.Controls.Add(this.label11);
+            this.panel_Student.Controls.Add(this.label4);
+            this.panel_Student.Controls.Add(this.label2);
+            this.panel_Student.Controls.Add(this.label1);
+            this.panel_Student.Location = new System.Drawing.Point(0, 67);
+            this.panel_Student.Name = "panel_Student";
+            this.panel_Student.Size = new System.Drawing.Size(737, 427);
+            this.panel_Student.TabIndex = 3;
+            // 
+            // txt_TeacherPassword
+            // 
+            this.txt_TeacherPassword.Location = new System.Drawing.Point(190, 97);
+            this.txt_TeacherPassword.Name = "txt_TeacherPassword";
+            this.txt_TeacherPassword.Size = new System.Drawing.Size(100, 20);
+            this.txt_TeacherPassword.TabIndex = 20;
             // 
             // txt_Teacher
             // 
@@ -176,15 +187,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 492);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel_Student);
             this.Controls.Add(this.btn_AddTeacher);
             this.Controls.Add(this.btn_AddStudent);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Admin";
             this.Text = "Admin";
             this.Load += new System.EventHandler(this.Admin_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panel_Student.ResumeLayout(false);
+            this.panel_Student.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -193,9 +204,8 @@
 
         private System.Windows.Forms.Button btn_AddStudent;
         private System.Windows.Forms.Button btn_AddTeacher;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel_Student;
         private System.Windows.Forms.Button btn_Save;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
@@ -205,5 +215,7 @@
         private System.Windows.Forms.TextBox txt_StudentID;
         private System.Windows.Forms.TextBox txt_LastName;
         private System.Windows.Forms.TextBox txt_FirstName;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txt_TeacherPassword;
     }
 }
