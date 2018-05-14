@@ -23,3 +23,15 @@ C:\Users\Jmarsh\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.csproj.Gen
 C:\Users\Jmarsh\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.exe
 C:\Users\Jmarsh\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.pdb
 C:\Users\Jmarsh\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.csproj.CoreCompileInputs.cache
+C:\Users\Marshall\Desktop\Behavior\Behavior\Behavior\bin\Debug\Behavior.exe.config
+C:\Users\Marshall\Desktop\Behavior\Behavior\Behavior\bin\Debug\Behavior.exe
+C:\Users\Marshall\Desktop\Behavior\Behavior\Behavior\bin\Debug\Behavior.pdb
+C:\Users\Marshall\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.csprojResolveAssemblyReference.cache
+C:\Users\Marshall\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.LoginForm.resources
+C:\Users\Marshall\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.Teacher.resources
+C:\Users\Marshall\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.Admin.resources
+C:\Users\Marshall\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.Properties.Resources.resources
+C:\Users\Marshall\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.csproj.GenerateResource.cache
+C:\Users\Marshall\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.csproj.CoreCompileInputs.cache
+C:\Users\Marshall\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.exe
+C:\Users\Marshall\Desktop\Behavior\Behavior\Behavior\obj\Debug\Behavior.pdb
