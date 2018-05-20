@@ -18,45 +18,53 @@ namespace Behavior
         {
             InitializeComponent();
             panel_Student.Visible = false;
-
+            combo_Questions.Visible = true;
+            HideStuff();
         }
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            if (txt_Days.Visible)
+            if (txt_Days.Text != "" &&txt_FirstName.Text != ""&&txt_LastName.Text != ""&&txt_StudentID.Text != ""&& Combo_Teachers.Text != "")
             {
-                SqlCommand SaveStudent = new SqlCommand("insert into Student (first_name, last_name, teacher, days, daysleft,studentid) values " +
-                "(@first_name,@last_name, @teacher,@days,@daysleft,@studentid)", cnn);
-                SaveStudent.Parameters.AddWithValue(@"first_name", txt_FirstName.Text);
-                SaveStudent.Parameters.AddWithValue(@"last_name", txt_LastName.Text);
-                SaveStudent.Parameters.AddWithValue(@"teacher", Combo_Teachers.Text);
-                SaveStudent.Parameters.AddWithValue(@"days", txt_Days.Text);
-                SaveStudent.Parameters.AddWithValue(@"daysleft", txt_Days.Text);
-                SaveStudent.Parameters.AddWithValue(@"studentid", txt_StudentID.Text);
-                cnn.Open();
-                SaveStudent.ExecuteNonQuery();
-                cnn.Close();
+                if (txt_Days.Visible)
+                {
+                    SqlCommand SaveStudent = new SqlCommand("insert into Student (first_name, last_name, teacher, days, daysleft,studentid) values " +
+                    "(@first_name,@last_name, @teacher,@days,@daysleft,@studentid)", cnn);
+                    SaveStudent.Parameters.AddWithValue(@"first_name", txt_FirstName.Text);
+                    SaveStudent.Parameters.AddWithValue(@"last_name", txt_LastName.Text);
+                    SaveStudent.Parameters.AddWithValue(@"teacher", Combo_Teachers.Text);
+                    SaveStudent.Parameters.AddWithValue(@"days", txt_Days.Text);
+                    SaveStudent.Parameters.AddWithValue(@"daysleft", txt_Days.Text);
+                    SaveStudent.Parameters.AddWithValue(@"studentid", txt_StudentID.Text);
+                    cnn.Open();
+                    SaveStudent.ExecuteNonQuery();
+                    cnn.Close();
 
+                }
+                else
+                {
+                    SqlCommand SaveStudent = new SqlCommand("insert into Login (username, password, access,first_name, last_name ) values " +
+                        "(@username,@password,@access,@first_name,@last_name)", cnn);
+                    SaveStudent.Parameters.AddWithValue(@"first_name", txt_FirstName.Text);
+                    SaveStudent.Parameters.AddWithValue(@"last_name", txt_LastName.Text);
+                    string user = txt_LastName + "_" + txt_FirstName;
+                    SaveStudent.Parameters.AddWithValue(@"username", user);
+                    SaveStudent.Parameters.AddWithValue(@"password", txt_TeacherPassword.Text);
+                    SaveStudent.Parameters.AddWithValue(@"access", 2);
+                    cnn.Open();
+                    SaveStudent.ExecuteNonQuery();
+                    cnn.Close();
+                }
+                txt_Days.Text = "";
+                txt_FirstName.Text = "";
+                txt_LastName.Text = "";
+                txt_StudentID.Text = "";
+                Combo_Teachers.Text = "";
             }
             else
             {
-                SqlCommand SaveStudent = new SqlCommand("insert into Login (username, password, access,first_name, last_name ) values " +
-                    "(@username,@password,@access,@first_name,@last_name)", cnn);
-                SaveStudent.Parameters.AddWithValue(@"first_name", txt_FirstName.Text);
-                SaveStudent.Parameters.AddWithValue(@"last_name", txt_LastName.Text);
-                string user = txt_LastName + "_" + txt_FirstName;
-                SaveStudent.Parameters.AddWithValue(@"username", user);
-                SaveStudent.Parameters.AddWithValue(@"password", txt_TeacherPassword.Text);
-                SaveStudent.Parameters.AddWithValue(@"access", 2);
-                cnn.Open();
-                SaveStudent.ExecuteNonQuery();
-                cnn.Close();
+                MessageBox.Show("Please make sure all boxes have information");
             }
-            txt_Days.Text = "";
-            txt_FirstName.Text = "";
-            txt_LastName.Text = "";
-            txt_StudentID.Text = "";
-            Combo_Teachers.Text = "";
         }
 
         private void RadioButton()
@@ -83,17 +91,24 @@ namespace Behavior
 
         private void btn_AddStudent_Click(object sender, EventArgs e)
         {
-            cnn.Open();
-            SqlCommand cmd = new SqlCommand("SELECT first_name, last_name FROM Login WHERE access = 2", cnn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            reader.Read();
-            while (reader.Read())
+            if (Combo_Teachers.Items.Count == 0)
             {
-                Combo_Teachers.Items.Add(reader["first_name"].ToString() + reader["last_name"].ToString());
+                cnn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT first_name, last_name FROM Login WHERE access = @Access", cnn);
+                cmd.Parameters.AddWithValue("@Access", 2);
+                SqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                while (reader.Read())
+                {
+                    Combo_Teachers.Items.Add(reader["first_name"].ToString() + reader["last_name"].ToString());
+                }
+                cnn.Close();
             }
-            cnn.Close();
             HideStuff();
-            panel_Student.Visible = true;
+            if (panel_Student.Visible == false)
+            {
+                panel_Student.Visible = true;
+            }
             label1.Text = "First Name";
             label1.Visible = true;
             label10.Visible = true;
@@ -106,6 +121,7 @@ namespace Behavior
             txt_LastName.Visible = true;
             txt_StudentID.Visible = true;
             Combo_Teachers.Visible = true;
+            btn_Save.Visible = true;
         }
 
         private void btn_AddTeacher_Click(object sender, EventArgs e)
@@ -114,31 +130,53 @@ namespace Behavior
             label1.Visible = true;
             label1.Text = "First Name";
             label2.Visible = true;
-            panel_Student.Visible = true;
+            if (panel_Student.Visible == false)
+            {
+                panel_Student.Visible = true;
+            }
             txt_TeacherPassword.Visible = true;
             txt_FirstName.Visible = true;
             txt_LastName.Visible = true;
             label4.Text = "Password";
+            btn_Save.Visible = true;
             label4.Visible = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            cnn.Open();
-            SqlCommand cmd = new SqlCommand("SELECT first_name, last_name FROM Student WHERE TEACHER = 'Corey'", cnn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            reader.Read();
-            while (reader.Read())
+            if (combo_StudentNames.Items.Count == 0)
             {
-                combo_StudentNames.Items.Add( reader["first_name"].ToString() + reader["last_name"].ToString());
+                cnn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT first_name, last_name FROM Student ", cnn);
+                SqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                while (reader.Read())
+                {
+                    combo_StudentNames.Items.Add(reader["first_name"].ToString() + " " + reader["last_name"].ToString());
+                }
+                cnn.Close();
             }
-            cnn.Close();
+            if (panel_Student.Visible == false)
+            {
+                panel_Student.Visible = true;
+            }
             HideStuff();
-            combo_Questions.Visible = false;
+            combo_Questions.Visible = true;
             label1.Text = "First Name";
             combo_StudentNames.Visible = true;
             dataGridView1.Visible = true;
             label3.Visible = true;
+            //string teacherName = "Justin";
+            //cnn.Open();
+            //String CMD = "SELECT first_name, last_name FROM Student " + "WHERE teacher like @Teacher;";
+            //SqlCommand cmd = new SqlCommand("SELECT first_name, last_name FROM Student WHERE teacher = @Teacher", cnn);
+            //cmd.Parameters.AddWithValue("@Teacher", teacherName);
+            //SqlDataReader reader = cmd.ExecuteReader();
+            //while (reader.Read())
+            //{
+            //    combo_StudentNames.Items.Add( reader["first_name"].ToString() + " " + reader["last_name"].ToString());
+            //}
+            //cnn.Close();
         }
 
         private void HideStuff()
