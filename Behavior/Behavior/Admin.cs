@@ -144,10 +144,11 @@ namespace Behavior
 
         private void button1_Click(object sender, EventArgs e)
         {
+            HideStuff();
             if (combo_StudentNames.Items.Count == 0)
             {
                 cnn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT first_name, last_name FROM Student ", cnn);
+                SqlCommand cmd = new SqlCommand("SELECT first_name, last_name,days,daysleft FROM Student ORDER BY daysleft DESC ", cnn);
                 SqlDataReader reader = cmd.ExecuteReader();
                 reader.Read();
                 while (reader.Read())
@@ -156,27 +157,7 @@ namespace Behavior
                 }
                 cnn.Close();
             }
-            if (panel_Student.Visible == false)
-            {
-                panel_Student.Visible = true;
-            }
-            HideStuff();
-            combo_Questions.Visible = true;
-            label1.Text = "First Name";
-            combo_StudentNames.Visible = true;
-            dataGridView1.Visible = true;
-            label3.Visible = true;
-            //string teacherName = "Justin";
-            //cnn.Open();
-            //String CMD = "SELECT first_name, last_name FROM Student " + "WHERE teacher like @Teacher;";
-            //SqlCommand cmd = new SqlCommand("SELECT first_name, last_name FROM Student WHERE teacher = @Teacher", cnn);
-            //cmd.Parameters.AddWithValue("@Teacher", teacherName);
-            //SqlDataReader reader = cmd.ExecuteReader();
-            //while (reader.Read())
-            //{
-            //    combo_StudentNames.Items.Add( reader["first_name"].ToString() + " " + reader["last_name"].ToString());
-            //}
-            //cnn.Close();
+
         }
 
         private void HideStuff()
@@ -204,6 +185,7 @@ namespace Behavior
         }
         private void combo_StudentNames_SelectedIndexChanged(object sender, EventArgs e)
         {
+            HideStuff();
 
         }
 
@@ -216,6 +198,32 @@ namespace Behavior
             // Get from the user if they want to change the teacher or delete the student and us the studentID to get other information
             string studentID = txt_FirstName.Text;
             RadioButton();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (combo_StudentNames.Items.Count == 0)
+            {
+                cnn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT first_name, last_name FROM Student ", cnn);
+                SqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                while (reader.Read())
+                {
+                    combo_StudentNames.Items.Add(reader["first_name"].ToString() + " " + reader["last_name"].ToString());
+                }
+                cnn.Close();
+            }
+            if (panel_Student.Visible == false)
+            {
+                panel_Student.Visible = true;
+            }
+            HideStuff();
+            combo_Questions.Visible = true;
+            label1.Text = "First Name";
+            combo_StudentNames.Visible = true;
+            dataGridView1.Visible = true;
+            label3.Visible = true;
         }
     }
 }

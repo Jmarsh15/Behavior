@@ -11,6 +11,7 @@ namespace Behavior
         int dLeft = 0;
         private void HideStuff()
         {
+            comboBox1.Visible = false;
             label1.Visible = false;
             label2.Visible = false;
             label3.Visible = false;
@@ -63,7 +64,18 @@ namespace Behavior
             txt_DaysLeft6.Visible = false;
             txt_DaysLeft7.Visible = false;
             txt_DaysLeft8.Visible = false;
-
+            label14.Visible = false;
+            txt_Other.Visible = false;
+            comboBox1.Visible = false;
+            label11.Visible = false;
+            label9.Visible = false;
+            txt_endofincident.Visible = false;
+            txt_Startofincident.Visible = false;
+            comboBox2.Visible = false;
+            comboBox3.Visible = false;
+            label10.Visible = false;
+            label12.Visible = false;
+            label13.Visible = false;
         }
         SqlConnection cnn = new SqlConnection("Data Source=behaviordatabase.cfzuumxbilpn.us-east-2.rds.amazonaws.com," + "1433;Initial Catalog=Login;User ID=BehaviorTest;Password=jL55hrHErQMD");
 
@@ -325,6 +337,47 @@ namespace Behavior
         private void button1_Click(object sender, EventArgs e)
         {
             HideStuff();
+            comboBox1.Visible = true;
+            label11.Visible = true;
+            label9.Visible = true;
+            txt_endofincident.Visible = true;
+            txt_Startofincident.Visible = true;
+            comboBox2.Visible = true;
+            comboBox3.Visible = true;
+            label10.Visible = true;
+            label12.Visible = true;
+            label13.Visible = true;
+            comboBox2.Items.Add("Maladaptive verbal");
+            comboBox2.Items.Add("Physical aggression");
+            comboBox2.Items.Add("Noncompliance");
+            comboBox2.Items.Add("Elopment");
+            comboBox2.Items.Add("SIB");
+            comboBox2.Items.Add("Other");
+            comboBox3.Items.Add("1");
+            comboBox3.Items.Add("2");
+            comboBox3.Items.Add("3");
+            comboBox3.Items.Add("4");
+            comboBox3.Items.Add("5");
+            string connetionString = null;
+            SqlConnection cnn;
+            connetionString = "Data Source=behaviordatabase.cfzuumxbilpn.us-east-2.rds.amazonaws.com,1433;Initial Catalog=Login;User ID=BehaviorTest;Password=jL55hrHErQMD";
+            cnn = new SqlConnection(connetionString);
+                // TODO on login set the teachers name 
+                string teacherName = "Justin";
+                cnn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT first_name, last_name,studentid FROM Student WHERE teacher = @Teacher", cnn);
+                cmd.Parameters.AddWithValue("@Teacher", teacherName);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    comboBox1.Items.Add(reader["first_name"].ToString() + " " + reader["last_name"].ToString());
+                }
+            if (comboBox3.SelectedIndex == 5)
+            {
+                label14.Visible = true;
+                txt_Other.Visible = true;
+            }
+            
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -668,5 +721,55 @@ namespace Behavior
             checkBox8_Success.Checked = false;
         }
 
+        private void btn_SaveIndividual_Click(object sender, EventArgs e)
+        {
+            int index = comboBox1.SelectedIndex;
+            string selected = "";
+            if (index == 1)
+            {
+                selected = "label" + 9;
+            }
+            else if (index == 2)
+            {
+                selected = "label" + 10;
+            }
+            else if (index == 3)
+            {
+                selected = "label" + 12;
+            }
+            else if (index == 4)
+            {
+                selected = "label" + 15;
+            }
+            else if (index == 5)
+            {
+                selected = "label" + 14;
+            }
+            else if (index == 6)
+            {
+                selected = "label" + 13;
+            }
+            else if (index == 7)
+            {
+                selected = "label" + 18;
+            }
+            else if (index == 8)
+            {
+                selected = "label" + 17;
+            }
+            SqlCommand SaveStudent = new SqlCommand("insert into DailyStudentSuccess (studentid, start, end, date,type,intensity,other) values " +
+                   "(@studentid,@start, @end,@date,@type,@intensity,other)", cnn);
+            SaveStudent.Parameters.AddWithValue(@"studentid", selected);
+            SaveStudent.Parameters.AddWithValue(@"start", txt_Startofincident);
+            SaveStudent.Parameters.AddWithValue(@"end", txt_endofincident);
+            SaveStudent.Parameters.AddWithValue(@"date", DateTime.Now);
+            SaveStudent.Parameters.AddWithValue(@"Type",comboBox2);
+            SaveStudent.Parameters.AddWithValue(@"intensity", comboBox3);
+            if (txt_Other.Visible == true)
+            {
+                SaveStudent.Parameters.AddWithValue(@"other", txt_Other);
+            }
+            SaveStudent.ExecuteNonQuery();
+        }
     }
 }
