@@ -14,38 +14,42 @@ namespace Behavior
 {
     public partial class LoginForm : Form
     {
-       public LoginForm()
-       {
-           InitializeComponent();
-           this.StartPosition = FormStartPosition.CenterScreen;
-           MaximizeBox = false;
-           MinimizeBox = false;
-       }
+        SqlConnection cnn = new SqlConnection("Data Source=behaviordatabase.cfzuumxbilpn.us-east-2.rds.amazonaws.com," + "1433;Initial Catalog=Login;User ID=BehaviorTest;Password=jL55hrHErQMD");
+        public LoginForm()
+        {
+            InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            MaximizeBox = false;
+            MinimizeBox = false;
+        }
 
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (SqlConnection Connection = new SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Jmarsh\Desktop\Behavior\Behavior\Behavior\Login.mdf; Integrated Security = True"))
+            string access = "";
+            cnn.Open();
+            SqlCommand cmd = new SqlCommand(@"SELECT access FROM Login WHERE Username=@uname and Password=@pass", cnn);
+            cmd.Parameters.AddWithValue("@uname", txt_username.Text);
+            cmd.Parameters.AddWithValue("@pass", txt_password.Text);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                try
-                {
-                    Connection.Open();
-                    SqlCommand cmd = new SqlCommand(@"SELECT Count(*) FROM Login.mdf 
-                                        WHERE Username=@uname and 
-                                        Password=@pass", Connection);
-                    cmd.Parameters.AddWithValue("@uname", txt_username.Text);
-                    cmd.Parameters.AddWithValue("@pass", txt_password.Text);
-                    int result = (int)cmd.ExecuteScalar();
-                    if (result > 0)
-                        MessageBox.Show("Login Success");
-                    else
-                        MessageBox.Show("Incorrect login");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Unexpected error:" + ex.Message);
-                }
+                access = reader["access"].ToString();
             }
+            if (access == "1")
+            {
+                Admin admin = new Admin();
+                admin.Show();
+                this.Hide();
+
+            }
+            else
+            {
+                Teacher te = new Teacher();
+                te.Show();
+                this.Hide();
+            }
+            cnn.Close();
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -13,7 +13,7 @@ namespace Behavior
 {
     public partial class Admin : Form
     {
-        SqlConnection cnn = new SqlConnection("Data Source=behaviordatabase.cfzuumxbilpn.us-east-2.rds.amazonaws.com," + "1433;Initial Catalog=Login;User ID=Corey;Password=e{gtqqskum{tsxx;jndscztymsFT7_&#$!~<eed$rzzgl_BX;integrated security=False");
+        SqlConnection cnn = new SqlConnection("Data Source=behaviordatabase.cfzuumxbilpn.us-east-2.rds.amazonaws.com," + "1433;Initial Catalog=Login;User ID=BehaviorTest;Password=jL55hrHErQMD");
         public Admin()
         {
             InitializeComponent();
@@ -24,7 +24,7 @@ namespace Behavior
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            if (txt_Days.Text != "" &&txt_FirstName.Text != ""&&txt_LastName.Text != ""&&txt_StudentID.Text != ""&& Combo_Teachers.Text != "")
+            if (txt_Days.Text != "" && txt_FirstName.Text != "" && txt_LastName.Text != "" && txt_StudentID.Text != "" && Combo_Teachers.Text != "")
             {
                 if (txt_Days.Visible)
                 {
@@ -97,7 +97,6 @@ namespace Behavior
                 SqlCommand cmd = new SqlCommand("SELECT first_name, last_name FROM Login WHERE access = @Access", cnn);
                 cmd.Parameters.AddWithValue("@Access", 2);
                 SqlDataReader reader = cmd.ExecuteReader();
-                reader.Read();
                 while (reader.Read())
                 {
                     Combo_Teachers.Items.Add(reader["first_name"].ToString() + reader["last_name"].ToString());
@@ -144,20 +143,26 @@ namespace Behavior
 
         private void button1_Click(object sender, EventArgs e)
         {
-            HideStuff();
-            if (combo_StudentNames.Items.Count == 0)
+            if (panel_Student.Visible == false)
             {
-                cnn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT first_name, last_name,days,daysleft FROM Student ORDER BY daysleft DESC ", cnn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                reader.Read();
-                while (reader.Read())
-                {
-                    combo_StudentNames.Items.Add(reader["first_name"].ToString() + " " + reader["last_name"].ToString());
-                }
-                cnn.Close();
+                panel_Student.Visible = true;
             }
-
+            BindingSource bindingSource1 = new BindingSource();
+            HideStuff();
+            dataGridView1.Visible = true;
+            dataGridView1.Visible = true;
+            Invalidate();
+            string sql = "SELECT first_name, last_name,days,daysleft, totaldays, longeststreak,currentstreak,average,resets FROM Student ORDER BY daysleft DESC ";
+            string connectionString = "Data Source=behaviordatabase.cfzuumxbilpn.us-east-2.rds.amazonaws.com," + "1433;Initial Catalog=Login;User ID=BehaviorTest;Password=jL55hrHErQMD";
+            SqlConnection connection = new SqlConnection(connectionString);
+            SqlDataAdapter dataadapter = new SqlDataAdapter(sql, connection);
+            DataSet ds = new DataSet();
+            connection.Open();
+            dataadapter.Fill(ds, "Student_table");
+            connection.Close();
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.DataSource = ds;
+            dataGridView1.DataMember = "Student_table";
         }
 
         private void HideStuff()
@@ -207,7 +212,6 @@ namespace Behavior
                 cnn.Open();
                 SqlCommand cmd = new SqlCommand("SELECT first_name, last_name FROM Student ", cnn);
                 SqlDataReader reader = cmd.ExecuteReader();
-                reader.Read();
                 while (reader.Read())
                 {
                     combo_StudentNames.Items.Add(reader["first_name"].ToString() + " " + reader["last_name"].ToString());
@@ -224,6 +228,11 @@ namespace Behavior
             combo_StudentNames.Visible = true;
             dataGridView1.Visible = true;
             label3.Visible = true;
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
